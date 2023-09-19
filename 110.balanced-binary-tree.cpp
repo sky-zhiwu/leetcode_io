@@ -1,12 +1,11 @@
 /*
- * @lc app=leetcode.cn id=100 lang=cpp
+ * @lc app=leetcode.cn id=110 lang=cpp
  * @lcpr version=21913
  *
- * [100] 相同的树
+ * [110] 平衡二叉树
  */
 
 // @lc code=start
-//   Definition for a binary tree node.
 struct TreeNode {
     int val;
     TreeNode *left;
@@ -17,10 +16,10 @@ struct TreeNode {
 };
 class Solution {
 public:
-    bool isSameTree(TreeNode* p, TreeNode* q) {
-		if (p == nullptr || q == nullptr) return p == q;
-		return p->val == q->val && isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
-  }
+    bool isBalanced(TreeNode* root) {
+        
+
+    }
 };
 // @lc code=end
 
@@ -28,15 +27,16 @@ public:
 
 /*
 // @lcpr case=start
-// [1,2,3]\n[1,2,3]\n
+// [3,9,20,null,null,15,7]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [1,2]\n[1,null,2]\n
+// [1,2,2,3,3,null,null,4,4]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [1,2,1]\n[1,1,2]\n
+// []\n
 // @lcpr case=end
 
  */
+

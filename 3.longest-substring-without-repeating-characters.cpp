@@ -6,10 +6,10 @@
 // @lcpr-before-debug-end
 
 /*
- * @lc app=leetcode.cn id=852 lang=cpp
+ * @lc app=leetcode.cn id=3 lang=cpp
  * @lcpr version=21913
  *
- * [852] 山脉数组的峰顶索引
+ * [3] 无重复字符的最长子串
  */
 using namespace std;
 #include <algorithm>
@@ -27,18 +27,25 @@ using namespace std;
 #include <unordered_set>
 #include <utility>
 #include <vector>
+
 // @lc code=start
 class Solution {
 public:
-    int peakIndexInMountainArray(vector<int>& arr) {
-        int l = 0, r = arr.size() - 1;
-        while (l <= r) { //左闭右开
-            int mid = (l + r) >> 1;
-            if (arr[mid - 1] < arr[mid] && arr[mid + 1] < arr[mid]) return mid;
-            if (arr[mid - 1] < arr[mid] && arr[mid + 1] > arr[mid]) l = mid + 1;
-            else r = mid;
+    int lengthOfLongestSubstring(string s) {
+        // 时间复杂度O(n) 空间复杂度O(128) | O(1)-->s里的去重长度 
+        unordered_map<char, int> h;
+        int cnt = 0, l = 0, n = s.size();
+        for (int r = 0; r < n; r ++) {
+            h[s[r]] ++;
+            
+            while (h[s[r]] > 1) {
+                h[s[l]] --;
+                l ++;
+            }
+            cnt = max(cnt, r - l + 1);
         }
-        return l;
+        return cnt;
+
     }
 };
 // @lc code=end
@@ -47,15 +54,15 @@ public:
 
 /*
 // @lcpr case=start
-// [24,69,100,99,79,78,67,36,26,19]\n
+// "abcabcbb"\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [3,5,3,2,0]\n
+// "bbbbb"\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [0,10,5,2]\n
+// "pwwkew"\n
 // @lcpr case=end
 
  */

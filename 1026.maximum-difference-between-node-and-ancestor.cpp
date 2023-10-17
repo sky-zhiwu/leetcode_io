@@ -1,8 +1,8 @@
 /*
- * @lc app=leetcode.cn id=110 lang=cpp
+ * @lc app=leetcode.cn id=1026 lang=cpp
  * @lcpr version=21913
  *
- * [110] 平衡二叉树
+ * [1026] 节点与其祖先之间的最大差值
  */
 using namespace std;
 #include <algorithm>
@@ -31,17 +31,25 @@ struct TreeNode {
 };
 class Solution {
 public:
-    int depth(TreeNode* node) {
-        if (node == nullptr) return 0;
-        int l = depth(node->left);
-        if (l == -1) return -1;
-        int r = depth(node->right);
-        if (r == -1 || abs(l-r) > 1) return -1;
-        return max(l, r) + 1;
-    }
-    bool isBalanced(TreeNode* root) {
-        return depth(root) == -1 ? false : true;
+    void f(TreeNode* node, int& res, vector<int>& path) {
+        if (node == nullptr) return ;
+        path.push_back(node->val);
+        if (!node->left && !node->right) {
+            int maxnum = *max_element(path.begin(), path.end());
+            int minnum = *min_element(path.begin(), path.end());
+            res = max(res, maxnum - minnum);
+        }
+        f(node->left, res, path);
+        f(node->right, res, path);
+        path.erase(path.end() - 1);
 
+    }
+    int maxAncestorDiff(TreeNode* root) {
+        int res = -1;
+        vector<int> path;
+        f(root, res, path);
+        return res;
+        
 
     }
 };
@@ -51,15 +59,11 @@ public:
 
 /*
 // @lcpr case=start
-// [3,9,20,null,null,15,7]\n
+// [8,3,10,1,6,null,14,null,null,4,7,13]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [1,2,2,3,3,null,null,4,4]\n
-// @lcpr case=end
-
-// @lcpr case=start
-// []\n
+// [1,null,2,null,0,3]\n
 // @lcpr case=end
 
  */

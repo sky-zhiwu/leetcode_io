@@ -1,8 +1,8 @@
 /*
- * @lc app=leetcode.cn id=110 lang=cpp
- * @lcpr version=21913
+ * @lc app=leetcode.cn id=513 lang=cpp
+ * @lcpr version=21917
  *
- * [110] 平衡二叉树
+ * [513] 找树左下角的值
  */
 using namespace std;
 #include <algorithm>
@@ -31,17 +31,18 @@ struct TreeNode {
 };
 class Solution {
 public:
-    int depth(TreeNode* node) {
-        if (node == nullptr) return 0;
-        int l = depth(node->left);
-        if (l == -1) return -1;
-        int r = depth(node->right);
-        if (r == -1 || abs(l-r) > 1) return -1;
-        return max(l, r) + 1;
-    }
-    bool isBalanced(TreeNode* root) {
-        return depth(root) == -1 ? false : true;
-
+    int findBottomLeftValue(TreeNode* root) {
+        // 层序遍历 改为 从右到左遍历， 改变节点入队的顺序
+        queue<TreeNode*> q;
+        TreeNode* node;
+        q.push(root); 
+        while (!q.empty()) {
+            node = q.front();
+            q.pop();
+            if (node->right) q.push(node->right);
+            if (node->left) q.push(node->left);
+        }
+        return node->val;
 
     }
 };
@@ -51,15 +52,11 @@ public:
 
 /*
 // @lcpr case=start
-// [3,9,20,null,null,15,7]\n
+// [2,1,3]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [1,2,2,3,3,null,null,4,4]\n
-// @lcpr case=end
-
-// @lcpr case=start
-// []\n
+// [1,2,3,4,null,5,6,null,null,7]\n
 // @lcpr case=end
 
  */

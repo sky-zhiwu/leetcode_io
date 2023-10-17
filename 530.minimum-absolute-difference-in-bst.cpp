@@ -1,8 +1,8 @@
 /*
- * @lc app=leetcode.cn id=110 lang=cpp
- * @lcpr version=21913
+ * @lc app=leetcode.cn id=530 lang=cpp
+ * @lcpr version=21914
  *
- * [110] 平衡二叉树
+ * [530] 二叉搜索树的最小绝对差
  */
 using namespace std;
 #include <algorithm>
@@ -31,18 +31,18 @@ struct TreeNode {
 };
 class Solution {
 public:
-    int depth(TreeNode* node) {
-        if (node == nullptr) return 0;
-        int l = depth(node->left);
-        if (l == -1) return -1;
-        int r = depth(node->right);
-        if (r == -1 || abs(l-r) > 1) return -1;
-        return max(l, r) + 1;
+    int pre = INT_MIN, res = 1e5 + 10; 
+    void dfs(TreeNode* node) {
+        if (node == nullptr) return;
+        dfs(node->left);
+        if (pre != INT_MIN) res = min(res, abs(pre - node->val));
+        pre = node->val;
+        dfs(node->right);
     }
-    bool isBalanced(TreeNode* root) {
-        return depth(root) == -1 ? false : true;
-
-
+    int getMinimumDifference(TreeNode* root) {
+        // 中序
+        dfs(root);
+        return res;
     }
 };
 // @lc code=end
@@ -51,15 +51,11 @@ public:
 
 /*
 // @lcpr case=start
-// [3,9,20,null,null,15,7]\n
+// [4,2,6,1,3]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [1,2,2,3,3,null,null,4,4]\n
-// @lcpr case=end
-
-// @lcpr case=start
-// []\n
+// [1,0,48,null,null,12,49]\n
 // @lcpr case=end
 
  */

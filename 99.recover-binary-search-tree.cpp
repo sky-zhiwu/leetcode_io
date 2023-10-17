@@ -1,8 +1,8 @@
 /*
- * @lc app=leetcode.cn id=110 lang=cpp
- * @lcpr version=21913
+ * @lc app=leetcode.cn id=99 lang=cpp
+ * @lcpr version=21917
  *
- * [110] 平衡二叉树
+ * [99] 恢复二叉搜索树
  */
 using namespace std;
 #include <algorithm>
@@ -28,20 +28,11 @@ struct TreeNode {
     TreeNode() : val(0), left(nullptr), right(nullptr) {}
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
-};
+ };
 class Solution {
 public:
-    int depth(TreeNode* node) {
-        if (node == nullptr) return 0;
-        int l = depth(node->left);
-        if (l == -1) return -1;
-        int r = depth(node->right);
-        if (r == -1 || abs(l-r) > 1) return -1;
-        return max(l, r) + 1;
-    }
-    bool isBalanced(TreeNode* root) {
-        return depth(root) == -1 ? false : true;
-
+    void recoverTree(TreeNode* root) {
+        
 
     }
 };
@@ -51,15 +42,11 @@ public:
 
 /*
 // @lcpr case=start
-// [3,9,20,null,null,15,7]\n
+// [1,3,null,null,2]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [1,2,2,3,3,null,null,4,4]\n
-// @lcpr case=end
-
-// @lcpr case=start
-// []\n
+// [3,1,4,null,null,2]\n
 // @lcpr case=end
 
  */

@@ -25,7 +25,8 @@ class Solution {
 public:
     int trap(vector<int>& height) {
         /* 1. 前后缀分解
-           2. 相向双指针*/
+           2. 相向双指针
+           3. 单调栈*/
         // 1 时间复杂度O(n); 空间复杂度O(n) -->空间上可以优化（方法2）
         int n = height.size();
         /*
@@ -42,7 +43,7 @@ public:
         return sum; */
 
         // 2 时间复杂度O(n); 空间复杂度O(1)
-        int sum = 0, l = 0, r = n - 1, pre_max = 0, suf_max = 0;
+        /*int sum = 0, l = 0, r = n - 1, pre_max = 0, suf_max = 0;
         while (l < r) {
             pre_max = max(pre_max, height[l]); //更新前后缀最大值
             suf_max = max(suf_max, height[r]);
@@ -56,7 +57,22 @@ public:
             }
         }
 
-        return sum;
+        return sum;*/
+
+        // 3
+        stack<int> st;
+        int res = 0;
+        for (int i = 0; i < n; i ++) {
+            while (!st.empty() && height[i] > height[st.top()]) {
+                int t = st.top();
+                st.pop();
+                if (!st.empty()) res += (i - 1 - st.top()) * (min(height[i], height[st.top()]) - height[t]);
+            }
+            st.emplace(i);
+            
+        }
+        return res;
+
     }
 };
 // @lc code=end

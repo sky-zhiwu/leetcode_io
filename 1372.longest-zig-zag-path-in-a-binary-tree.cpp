@@ -1,8 +1,8 @@
 /*
- * @lc app=leetcode.cn id=110 lang=cpp
- * @lcpr version=21913
+ * @lc app=leetcode.cn id=1372 lang=cpp
+ * @lcpr version=21914
  *
- * [110] 平衡二叉树
+ * [1372] 二叉树中的最长交错路径
  */
 using namespace std;
 #include <algorithm>
@@ -31,18 +31,24 @@ struct TreeNode {
 };
 class Solution {
 public:
-    int depth(TreeNode* node) {
-        if (node == nullptr) return 0;
-        int l = depth(node->left);
-        if (l == -1) return -1;
-        int r = depth(node->right);
-        if (r == -1 || abs(l-r) > 1) return -1;
-        return max(l, r) + 1;
+    int  res = 0;
+    void dfs(TreeNode* node, bool direction, int cnt) { //0左1右
+        if (node == nullptr) return;
+        res = max(res, cnt + 1) ;
+        if (!direction) { //下一步往左
+            dfs(node->left, 1, cnt + 1);
+            dfs(node->right, 0, 1);
+        }
+        else { 
+            dfs(node->right, 0, cnt + 1);
+            if (node->left) dfs(node->left, 1, 1);
+        }
     }
-    bool isBalanced(TreeNode* root) {
-        return depth(root) == -1 ? false : true;
-
-
+    int longestZigZag(TreeNode* root) {
+        if (root == nullptr) return 0;
+        dfs(root, 0, 0); // 从根节点左子树出发
+        dfs(root, 1, 0);  
+        return res - 1;
     }
 };
 // @lc code=end
@@ -51,15 +57,15 @@ public:
 
 /*
 // @lcpr case=start
-// [3,9,20,null,null,15,7]\n
+// [1,null,1,1,1,null,null,1,1,null,1,null,null,1]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [1,2,2,3,3,null,null,4,4]\n
+// [1,1,1,null,1,null,null,1,1,null,1]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// []\n
+// [1,2]\n
 // @lcpr case=end
 
  */

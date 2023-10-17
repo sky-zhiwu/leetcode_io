@@ -1,8 +1,8 @@
 /*
- * @lc app=leetcode.cn id=110 lang=cpp
+ * @lc app=leetcode.cn id=199 lang=cpp
  * @lcpr version=21913
  *
- * [110] 平衡二叉树
+ * [199] 二叉树的右视图
  */
 using namespace std;
 #include <algorithm>
@@ -31,18 +31,18 @@ struct TreeNode {
 };
 class Solution {
 public:
-    int depth(TreeNode* node) {
-        if (node == nullptr) return 0;
-        int l = depth(node->left);
-        if (l == -1) return -1;
-        int r = depth(node->right);
-        if (r == -1 || abs(l-r) > 1) return -1;
-        return max(l, r) + 1;
+    // 定义递归函数
+    void f(TreeNode* node, int depth, vector<int>& res) {
+        if (node == nullptr) return ;
+        if (depth == res.size()) res.push_back(node->val);
+        f(node->right, depth + 1, res); 
+        f(node->left, depth + 1, res); 
     }
-    bool isBalanced(TreeNode* root) {
-        return depth(root) == -1 ? false : true;
 
-
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int> res;
+        f(root, 0, res);
+        return res;
     }
 };
 // @lc code=end
@@ -51,11 +51,11 @@ public:
 
 /*
 // @lcpr case=start
-// [3,9,20,null,null,15,7]\n
+// [1,2,3,null,5,null,4]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [1,2,2,3,3,null,null,4,4]\n
+// [1,null,3]\n
 // @lcpr case=end
 
 // @lcpr case=start

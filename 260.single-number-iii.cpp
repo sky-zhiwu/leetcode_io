@@ -33,11 +33,24 @@ public:
 
         sort(nums.begin(), nums.end());
 
-        function<int()> erfen = [&] () {
-            
-            return 1;
-        };
-
+        int ans1 = nums[0], ans2 =nums[0];
+        bool f1 = false, f2 = false;
+        if (nums[0] != nums[1]) f1 = true;
+        for (int i = 1; i < n - 1; i ++) {
+            if (nums[i] != nums[i - 1] && nums[i] != nums[i + 1]) {
+                if (f1) {
+                    ans2 = nums[i];
+                    f2 = true;
+                    return {ans1, ans2};
+                }
+                else {
+                    ans1 = nums[i];
+                    f1 = true;
+                }
+            }
+        }
+        if (!f2) ans2 = nums[n - 1];
+        return {ans1, ans2};
 
     }
 };

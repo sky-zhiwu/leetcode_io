@@ -1,9 +1,11 @@
 /*
- * @lc app=leetcode.cn id=2824 lang=cpp
- * @lcpr version=21913
+ * @lc app=leetcode.cn id=275 lang=cpp
+ * @lcpr version=30103
  *
- * [2824] 统计和小于目标的下标对数目
+ * [275] H 指数 II
  */
+
+
 // @lcpr-template-start
 using namespace std;
 #include <algorithm>
@@ -25,22 +27,17 @@ using namespace std;
 // @lc code=start
 class Solution {
 public:
-    int countPairs(vector<int>& nums, int target) {
-        int ans = 0, n = nums.size();
-        if (n == 1) return 0;
-        sort(nums.begin(), nums.end());
+    int hIndex(vector<int>& citations) {
+        int n = citations.size();
+
         int l = 0, r = n - 1;
-        if (nums[r] + nums[r - 1] < target) return n * (n - 1) / 2;
-        // 滑动窗口??
         while (l < r) {
-            if (nums[l] + nums[r] < target) {
-                ans += r - l;
-                l ++;
-            }
-            else r --;
+            int mid = (l + r) >> 1;
+            if (n - mid <= citations[mid]) r = mid; //n-mid为篇数，c[mid]为次数
+            else l = mid+1;
         }
-        return ans;
-        
+        return (citations[r] == 0) ? 0 : n-r;
+
     }
 };
 // @lc code=end
@@ -49,11 +46,11 @@ public:
 
 /*
 // @lcpr case=start
-// [-1,1,2,3,1]\n2\n
+// [0,1,3,5,6]\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [-6,2,5,-2,-7,-1,3]\n-2\n
+// [1,2,100]\n
 // @lcpr case=end
 
  */

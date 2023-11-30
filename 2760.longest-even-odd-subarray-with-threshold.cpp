@@ -1,9 +1,11 @@
 /*
- * @lc app=leetcode.cn id=2824 lang=cpp
- * @lcpr version=21913
+ * @lc app=leetcode.cn id=2760 lang=cpp
+ * @lcpr version=30109
  *
- * [2824] 统计和小于目标的下标对数目
+ * [2760] 最长奇偶子数组
  */
+
+
 // @lcpr-template-start
 using namespace std;
 #include <algorithm>
@@ -25,22 +27,19 @@ using namespace std;
 // @lc code=start
 class Solution {
 public:
-    int countPairs(vector<int>& nums, int target) {
+    int longestAlternatingSubarray(vector<int>& nums, int threshold) {
         int ans = 0, n = nums.size();
-        if (n == 1) return 0;
-        sort(nums.begin(), nums.end());
-        int l = 0, r = n - 1;
-        if (nums[r] + nums[r - 1] < target) return n * (n - 1) / 2;
-        // 滑动窗口??
-        while (l < r) {
-            if (nums[l] + nums[r] < target) {
-                ans += r - l;
-                l ++;
+        for (int i = 0; i < n; i ++) {
+            if (nums[i] % 2 == 0 && nums[i] <= threshold) {
+                int cnt = 1;
+                while (i+1 < n && nums[i+1] % 2 != nums[i] % 2 && nums[i+1] <= threshold) {
+                    i ++;
+                    cnt ++;
+                }
+                ans = max(ans, cnt);
             }
-            else r --;
         }
         return ans;
-        
     }
 };
 // @lc code=end
@@ -49,11 +48,15 @@ public:
 
 /*
 // @lcpr case=start
-// [-1,1,2,3,1]\n2\n
+// [3,2,5,4]\n5\n
 // @lcpr case=end
 
 // @lcpr case=start
-// [-6,2,5,-2,-7,-1,3]\n-2\n
+// [1,2]\n2\n
+// @lcpr case=end
+
+// @lcpr case=start
+// [2,3,4,5]\n4\n
 // @lcpr case=end
 
  */
